@@ -7,6 +7,7 @@ from cloudmesh.common.util import path_expand
 from pprint import pprint
 from cloudmesh.common.debug import VERBOSE
 
+
 class TwitterCommand(PluginCommand):
 
     # noinspection PyUnusedLocal
@@ -55,19 +56,28 @@ class TwitterCommand(PluginCommand):
                 identify in future just some tweets that match this pattern.
 
         """
-        arguments.FILE = arguments['--file'] or None
 
         VERBOSE(arguments)
 
-        m = Manager()
+        file = arguments["--file"]
+        attributes = arguments["attributes"]
+        filter = arguments["filter"]
+        register = arguments.REGISTER
 
-        if arguments.FILE:
-            print("option a")
-            m.list(path_expand(arguments.FILE))
+        if arguments.register:
 
-        elif arguments.list:
-            print("option b")
-            m.list("just calling list without parameter")
 
-        Console.error("This is just a sample")
+            twitter = Twitter()
+            twitter.register(file=register)
+            Console.error("Not implemented")
+            raise NotImplementedError
+
+        elif arguments.stream:
+
+            twitter = Twitter()
+            twitter.stream(
+                   file=file,
+                   attributes=attributes,
+                   filter=filter)
+
         return ""
