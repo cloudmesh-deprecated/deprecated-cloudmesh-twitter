@@ -1,5 +1,6 @@
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.util import banner
+import io
 
 import sys
 from cloudmesh.common.console import Console
@@ -38,11 +39,12 @@ class Twitter:
         if file == "stdout":
             output = sys.stdout
         else:
-            output = open(path_expand(file), "w")
+            output = io.FileIO(path_expand(file), "w")
+        writer = io.BufferedWriter(output, buffer_size=100000000)
 
-        with output:
-            print("hallo")
+        writer.write("hallo")
 
-        Console.error("Not implemented")
+        writer.flush()
+
         raise NotImplementedError
 
