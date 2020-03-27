@@ -1,15 +1,61 @@
-Documentation
-=============
+# Documentation
 
+## Instalation
 
-[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-bar.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-bar)
+* Make sure you sue python 3.8.2
+* Makes usre you have a venve in ~/ENV3
 
-[![image](https://img.shields.io/pypi/pyversions/cloudmesh-bar.svg)](https://pypi.org/project/cloudmesh-bar)
+```bash
+pip install cloudmesh-installer
+cloudmesh-installer get twitter
+```
 
-[![image](https://img.shields.io/pypi/v/cloudmesh-bar.svg)](https://pypi.org/project/cloudmesh-bar/)
+## Usage
 
-[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-bar.svg)](https://github.com/TankerHQ/python-cloudmesh-bar/blob/master/LICENSE)
+```bash
+$ cms help twitter
+```
 
-see cloudmesh.cmd5
+## Manual Page
 
-* https://github.com/cloudmesh/cloudmesh.cmd5
+```
+  Usage:
+    cms twitter register [REGISTER]
+    cms twitter stream start [--file=FILE]
+                             [--attributes=ATTRIBUTES]
+                             [--filter=FILTER]
+
+  Arguments:
+    REGISTER  a file name with the registration information
+              [default: ~/.cloudmesh/twitter.json]
+    FILE      The file to which the stream is redirected.
+              By default this is stdout
+              [default: stdout]
+
+  Options:
+      -f      specify the file
+
+  Descriptions:
+
+    filter is not realy that imporatnt, attributes are
+
+    cms twitter register [FILE]
+
+      Registers the titter API with data stored in the file.
+      TODO: findout which data is used and whcih format it has.
+            Use the format that twitter offers
+
+    cms twitter stream start [--file=FILE]
+                             [--attributes=ATTRIBUTES]
+                             [--filter=FILTER]
+
+       Starts the twitter stream and redirects it to the given file. If
+       stdout is specified it just prints it. Twitter returns a number
+       of attributs in a tweet. You can specify a comma separated list
+       of attributes that are stored instead of all attributes. If you
+       do not specify attributes, all attributes will be returned.
+
+       The filter is currently unimportant, but we want to be able to
+       identify in future just some tweets that match this pattern.
+
+```

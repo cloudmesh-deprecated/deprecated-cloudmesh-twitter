@@ -46,14 +46,14 @@ class TwitterCommand(PluginCommand):
                                      [--attributes=ATTRIBUTES]
                                      [--filter=FILTER]
 
-                Starts the twitter stream and redirects it to the given file. If
-                stdout is specified it just prints it. Twitter returns a number
-                of attributs in a tweet. You can specify a comma separated list
-                of attributes that are stored instead of all attributes. If you
-                do not specify attributes, all attributes will be returned.
+              Starts the twitter stream and redirects it to the given file. If
+              stdout is specified it just prints it. Twitter returns a number
+              of attributs in a tweet. You can specify a comma separated list
+              of attributes that are stored instead of all attributes. If you
+              do not specify attributes, all attributes will be returned.
 
-                The filter is currently unimportant, but we want to be able to
-                identify in future just some tweets that match this pattern.
+              The filter is currently unimportant, but we want to be able to
+              identify in future just some tweets that match this pattern.
 
         """
 
@@ -65,7 +65,6 @@ class TwitterCommand(PluginCommand):
         register = arguments.REGISTER
 
         if arguments.register:
-
 
             twitter = Twitter()
             twitter.register(file=register)
