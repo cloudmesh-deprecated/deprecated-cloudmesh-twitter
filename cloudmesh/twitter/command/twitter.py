@@ -6,7 +6,24 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from pprint import pprint
 from cloudmesh.common.debug import VERBOSE
+from fastparquet import ParquetFile
+import sys
+import json
+import tweepy
 
+class StreamListener(tweepy.StreamListener):
+    def on_status(self, status):
+        print(status.id_str)
+
+        isretweet = False
+
+        if hasattr(status, "retweeted_status"):
+            isretweet = True
+
+
+    def on_error(self, status_code):
+        print('Error, exiting')
+        sys.exit()
 
 class TwitterCommand(PluginCommand):
 
@@ -34,12 +51,12 @@ class TwitterCommand(PluginCommand):
 
           Descriptions:
 
-            filter is not realy that imporatnt, attributes are
+            filter is not really that important, attributes are
 
             cms twitter register [FILE]
 
-              Registers the titter API with data stored in the file.
-              TODO: findout which data is used and whcih format it has.
+              Registers the twitter API with data stored in the file.
+              TODO: find out which data is used and which format it has.
                     Use the format that twitter offers
 
             cms twitter stream start [--file=FILE]
@@ -48,7 +65,7 @@ class TwitterCommand(PluginCommand):
 
               Starts the twitter stream and redirects it to the given file. If
               stdout is specified it just prints it. Twitter returns a number
-              of attributs in a tweet. You can specify a comma separated list
+              of attributes in a tweet. You can specify a comma separated list
               of attributes that are stored instead of all attributes. If you
               do not specify attributes, all attributes will be returned.
 
@@ -64,12 +81,25 @@ class TwitterCommand(PluginCommand):
         filter = arguments["filter"]
         register = arguments.REGISTER
 
+        with open('~/.cloudmesh/twitter.json') as f:
+            data = json.load(f)
+
+        consumer_key = data.consumer_key
+        consumer_secret = data.consumer_secret
+        access_key = data.access_key
+        access_secret = data.access_secret
+
+
         if arguments.register:
 
             twitter = Twitter()
             twitter.register(file=register)
-            Console.error("Not implemented")
-            raise NotImplementedError
+            #Console.error("Not implemented")
+            #raise NotImplementedError
+            auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+            auth.set_access_token(access_key, access_secret)
+            api = tweepy.API(auth)
+
 
         elif arguments.stream:
 
@@ -78,5 +108,15 @@ class TwitterCommand(PluginCommand):
                    file=file,
                    attributes=attributes,
                    filter=filter)
+
+            auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+            auth.set_access_token(access_key, access_secret)
+            api = tweepy.API(auth)
+
+            streamListener = StreamListener()
+            stream = tweepy.Stream(auth = api.auth, listener=streamListener, tweet_mode='extended')
+
+            tags = filter
+            stream.filter(track=tags)
 
         return ""
