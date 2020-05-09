@@ -19,6 +19,9 @@ class StreamListener(tweepy.StreamListener):
 
         if hasattr(status, "retweeted_status"):
             isretweet = True
+            
+        # changes go here
+        # more information with Twitter API access
 
 
     def on_error(self, status_code):
